@@ -1,13 +1,8 @@
-<svelte:head>
-  <script src='https://unpkg.com/konva@8.3.0/konva.min.js'/>
-</svelte:head>
-
 <script>
   import {onMount} from 'svelte';
 
-  export let Konva = null;
   export let stage = null;
-  export let scaleBy = 1.1;
+  let scaleBy = 1.1;
   let container;
 
   const resize = () => {
@@ -16,7 +11,6 @@
   }
 
   onMount(() => {
-    Konva = window.Konva;
     const {width, height} = container.getBoundingClientRect();
     stage = new Konva.Stage({
       container: container,
@@ -26,7 +20,7 @@
     });
 
     stage.on('wheel', (e) => {
-      e.evt.preventDefault();
+      // e.evt.preventDefault();
       let oldScale = stage.scaleX();
       let pointer = stage.getPointerPosition();
 
@@ -44,6 +38,7 @@
       stage.position(newPos);
     });
   });
+//  bind:innerHeight={h} bind:innerWidth={w}
 </script>
 
 <style>
@@ -52,6 +47,5 @@
       background-color: #333;
   }
 </style>
-
 <svelte:window on:resize|passive={resize}/>
 <div bind:this={container}></div>

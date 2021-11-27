@@ -1,7 +1,6 @@
 <script>
   import Canvas from 'components/Canvas.svelte';
-  import {onMount} from 'svelte';
-  let Konva, stage, layer;
+  let stage, layer;
 
   const addImage = (src, layer, options) => {
     const image = new Image();
@@ -18,7 +17,8 @@
     image.src = src;
   }
 
-  onMount(() => {
+  $: if (stage) {
+    console.log('here');
     const bg = new Konva.Layer();
     layer = new Konva.Layer()
     stage.add(bg);
@@ -45,8 +45,8 @@
       shape.scaleX(1);
       shape.scaleY(1);
     });
-  })
+  }
 </script>
 
-<Canvas bind:stage={stage} bind:Konva={Konva}/>
+<Canvas bind:stage={stage}/>
 

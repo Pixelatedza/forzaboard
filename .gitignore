@@ -13,4 +13,5 @@
 # misc
 public/build
 yarn-error.log
+node_modules
 
