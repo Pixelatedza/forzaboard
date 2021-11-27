@@ -11,7 +11,7 @@ let includePathOptions = {
 	extensions: ['.js', '.jsx'],
 };
 
-const production = false;
+const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
 	let server;
