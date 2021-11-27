@@ -1,0 +1,12 @@
+html{
+	display: flex;
+	flex: 1;
+}
+
+body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	margin: 0;
+}
+
