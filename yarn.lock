@@ -108,6 +108,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-html@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "@rollup/plugin-html@npm:0.2.4"
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0
+  checksum: 63a644f13a855e1bd7bcc6a3aa12b894a2e50cc0ebd07f124e619987cc67483271d118f0875a945e531ece9dc92ab2166b223e2ea0cb3dd694b08987fbda911e
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-node-resolve@npm:^13.0.6":
   version: 13.0.6
   resolution: "@rollup/plugin-node-resolve@npm:13.0.6"
@@ -2283,6 +2292,7 @@ __metadata:
   resolution: "svelte-app@workspace:."
   dependencies:
     "@rollup/plugin-commonjs": ^21.0.1
+    "@rollup/plugin-html": ^0.2.4
     "@rollup/plugin-node-resolve": ^13.0.6
     rollup: ^2.60.1
     rollup-plugin-css-only: ^3.1.0

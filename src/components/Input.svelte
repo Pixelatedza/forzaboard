@@ -9,8 +9,9 @@
   }
 </style>
 <div>
-  <label>{field.label}</label>
+  <label for={field.name || field.id}>{field.label}</label>
   <input
+    id={field.name || field.id}
     type='text'
     bind:value={field.value}
   />

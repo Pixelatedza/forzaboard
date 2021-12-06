@@ -11,7 +11,7 @@
 !.yarn/versions
 
 # misc
-public/build
+public/bundle
 yarn-error.log
 node_modules
 

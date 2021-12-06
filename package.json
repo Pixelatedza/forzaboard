@@ -18,6 +18,7 @@
     "svelte": "^3.44.2"
   },
   "dependencies": {
+    "@rollup/plugin-html": "^0.2.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-dev": "^2.0.1"
   }
