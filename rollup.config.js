@@ -1,4 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
+import dev from 'rollup-plugin-dev';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
@@ -12,27 +13,6 @@ let includePathOptions = {
 };
 
 const production = !process.env.ROLLUP_WATCH;
-
-function serve() {
-	let server;
-
-	function toExit() {
-		if (server) server.kill(0);
-	}
-
-	return {
-		writeBundle() {
-			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
-			});
-
-			process.on('SIGTERM', toExit);
-			process.on('exit', toExit);
-		}
-	};
-}
 
 export default {
 	input: 'src/main.js',
@@ -63,9 +43,17 @@ export default {
 		}),
 		commonjs(),
 
+
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
-		!production && serve(),
+		!production && dev({
+			dirs: ['public'],
+			spa: 'public/index.html',
+			port: 5000,
+			proxy: [
+				{from: '/api/*', to: 'http://localhost:8000'}
+			],
+		}),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production

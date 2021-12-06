@@ -1,6 +1,7 @@
 <script>
-  import {onMount} from 'svelte';
+  import {onMount, createEventDispatcher} from 'svelte';
 
+  const dispatch = createEventDispatcher();
   export let stage = null;
   let scaleBy = 1.1;
   let container;
@@ -18,6 +19,7 @@
       height,
       draggable: true,
     });
+    dispatch('stageReady');
 
     stage.on('wheel', (e) => {
       // e.evt.preventDefault();
