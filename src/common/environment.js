@@ -7,7 +7,7 @@ const Environments = {
   },
   Prod: {
     name: "prod",
-    hostname: "api.forzaboard.net",
+    hostname: "forzaboard.net",
     apiHost: "https://api.forzaboard.net",
     apiBase: "",
   },
