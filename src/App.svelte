@@ -103,6 +103,7 @@
   }
 </script>
 
+<link rel='icon' type='image/png' href='F_small.png'>
 <style>
   div {
       display: flex;
