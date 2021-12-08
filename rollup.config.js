@@ -9,6 +9,8 @@ import includePaths from 'rollup-plugin-includepaths';
 import css from 'rollup-plugin-css-only';
 import html from '@rollup/plugin-html';
 
+const production = !process.env.ROLLUP_WATCH;
+
 let includePathOptions = {
 	paths: ['src'],
 	extensions: ['.js', '.jsx'],
@@ -39,24 +41,23 @@ const hashFix = () => {
 			for (const [filename, file] of Object.entries(bundle)) {
 				let source = file.code || file.source;
 				const [name, suffix] = filename.split('.');
-				file.fileName = `bundle/${name}-${crypto.createHash('md5').update(source).digest("hex").slice(0, 8)}.${suffix}`;
+				file.fileName = production
+					? `bundle/${name}-${crypto.createHash('md5').update(source).digest("hex").slice(0, 8)}.${suffix}`
+					: `bundle/${filename}`;
 			}
 		}
 	}
 }
 
-const production = !process.env.ROLLUP_WATCH;
-
 export default {
 	input: 'src/main.js',
 	output: {
-		sourcemap: !production,
+		sourcemap: false,
 		format: 'iife',
 		name: 'app',
 		dir: 'public',
 	},
 	plugins: [
-		// hashFix(),
 		includePaths(includePathOptions),
 		svelte({
 			compilerOptions: {
@@ -100,9 +101,14 @@ export default {
 		html({
 			fileName: 'index.html',
 			template: ({ files}) => {
-				const css = files.css.map(file => `<link rel='stylesheet' href='/${file.fileName}'>`).join('\n');
-				const js = files.js.map(file => `<script defer src='/${file.fileName}'></script>`).join('\n');
-				return indexTemplate({js, css});
+				const css = files.css?.map(file => `<link rel='stylesheet' href='/${file.fileName}'>`).join('\n');
+				const js = files.js?.map(file => `<script defer src='/${file.fileName}'></script>`).join('\n');
+				return production
+					? indexTemplate({js, css})
+					: indexTemplate({
+						js: '<script defer src=\'/bundle/main.js\'></script>',
+						css: '<link rel=\'stylesheet\' href=\'/bundle/bundle.css\'>',
+					})
 			}
 		})
 	],

@@ -16,6 +16,33 @@ export const addImage = (src, layer, options) => {
   })
 }
 
+export const addMarker = (parent) => {
+  const line = new Konva.Line({
+    points: [
+      -5, -6,
+      +5, -6,
+      0, 0,
+    ],
+    fill: 'white',
+    stroke: 'black',
+    strokeWidth: 1,
+    closed: true,
+  })
+  parent.add(line);
+}
+
+// This method was ripped straight from stackoverflow
+// Thanks to https://stackoverflow.com/a/38552302
+export const parseJwt = (token) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+};
+
 export const copy = data => {
 
   if (!data) {

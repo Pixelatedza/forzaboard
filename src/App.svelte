@@ -4,12 +4,18 @@
     getLocations,
     signIn,
   } from 'api';
-  import {addImage, serialize} from 'common';
+  import {
+    addImage,
+    serialize,
+    parseJwt,
+    addMarker,
+  } from 'common';
   import Menu from 'components/Menu.svelte';
   import Modal from 'components/Modal.svelte';
   import Form from 'components/Form.svelte';
   import Button from 'components/Button.svelte';
 
+  const mapLocations = [];
   let stage, layer, auth;
   let loginVisible = false;
   let form = [
@@ -25,17 +31,101 @@
   const onLogin = () => {
     signIn(serialize(form))
     .then(data => {
-      auth = data
+      const claims = parseJwt(data.access);
+      auth = {
+        access: data.access,
+        refresh: data.refresh,
+        permissions: new Set(claims.permissions),
+        isStaff: claims.isStaff,
+        isSuperuser: claims.isSuperuser,
+        lastLogin: claims.lastLogin,
+        userId: claims.user_id
+      }
       loginVisible = false;
+      enableEdit();
       // TODO: Fix this nonsense
       delete form[0].value;
       delete form[1].value;
     });
   }
 
+  // TODO: Move all this stuff to a better place.
+  const enableEdit = () => {
+
+    if (!auth.isSuperuser) {
+      return;
+    }
+
+    for (const {group, info} of mapLocations) {
+
+      const text = new Konva.Text({
+        text: info.name,
+        fontSize: 30,
+        fontStyle: 'bold',
+        fontFamily: 'Roboto',
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 1,
+      })
+
+      text.x(text.width() / -2);
+      text.y(text.height() * -1.5);
+      group.add(text);
+      group.setDraggable(true);
+      group.on('dragend', () => {
+        const pointerOnLayer = layer.getRelativePointerPosition();
+        const pointerOnGroup = group.getRelativePointerPosition()
+        const pos = {
+          x: pointerOnLayer.x - pointerOnGroup.x,
+          y: pointerOnLayer.y - pointerOnGroup.y
+        };
+        fetch(`/api/locations/${info.id}`, {
+          method: 'PATCH',
+          body: JSON.stringify({
+            xCoord: Math.floor(pos.x),
+            yCoord: Math.floor(pos.y)
+          }),
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${auth.access}`,
+          }
+        })
+      })
+    }
+
+    stage.on('dblclick', () => {
+      const pos = stage.getRelativePointerPosition();
+      pos.draggable = true;
+      fetch('/api/locations', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: 'Testing',
+          xCoord: Math.floor(pos.x),
+          yCoord: Math.floor(pos.y)
+        }),
+        headers: {
+          'content-type': 'application/json',
+          'Authorization': `Bearer ${auth.access}`,
+        }
+      }).then(res => {
+        console.log(res);
+        const group = new Konva.Group({
+          x: pos.x,
+          y: pos.y,
+          draggable: true,
+        })
+        addMarker(group);
+        layer.add(group);
+        mapLocations.push({
+          info: res,
+          group,
+        })
+      })
+    })
+  }
+
   const onStageReady = () => {
 
-    // TODO: Move all this stuff to a better place.
     const map = new Konva.Layer();
     addImage('/images/map.jpg', map);
     stage.add(map);
@@ -58,48 +148,19 @@
           return;
         }
         for (const location of locations) {
-          addImage('https://upload.wikimedia.org/wikipedia/commons/4/48/Light_Blue_Circle.svg', layer, {
+          const group = new Konva.Group({
             x: location.xCoord,
             y: location.yCoord,
-            draggable: true,
-          }).then(image => {
-            image.on('dragend', e => {
-              const pos = image.position();
-              fetch(`/api/locations/${location.id}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                  xCoord: Math.floor(pos.x),
-                  yCoord: Math.floor(pos.y)
-                }),
-                headers: {
-                  'content-type': 'application/json',
-                  'Authorization': `Bearer ${auth.access}`,
-                }
-              })
-            })
+          })
+
+          addMarker(group)
+          mapLocations.push({
+            info: location,
+            group,
           });
+          layer.add(group);
         }
       }).catch(e => console.error(e));
-
-    stage.on('dblclick', (e) => {
-      const pos = stage.getRelativePointerPosition();
-      pos.x -= 13;
-      pos.y -= 13;
-      pos.draggable = true;
-      addImage('https://upload.wikimedia.org/wikipedia/commons/4/48/Light_Blue_Circle.svg', layer, pos);
-      fetch('/api/locations', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: 'Testing',
-          xCoord: Math.floor(pos.x),
-          yCoord: Math.floor(pos.y)
-        }),
-        headers: {
-          'content-type': 'application/json',
-          'Authorization': `Bearer ${auth.access}`,
-        }
-      })
-    })
   }
 </script>
 
