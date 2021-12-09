@@ -11,7 +11,7 @@
   }
 </style>
 
-<div class='form'>
+<form class='form' on:submit>
 
   {#each config as field}
 
@@ -22,5 +22,6 @@
     {/if}
 
   {/each}
+  <input type="submit" style="position: absolute; left: -9999px"/>
 
-</div>
+</form>

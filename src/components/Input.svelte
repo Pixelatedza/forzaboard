@@ -11,8 +11,9 @@
 <div>
   <label for={field.name || field.id}>{field.label}</label>
   <input
-    id={field.name || field.id}
     type='text'
+    {...field.props}
+    id={field.name || field.id}
     bind:value={field.value}
   />
 </div>
