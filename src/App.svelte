@@ -9,6 +9,7 @@
     serialize,
     parseJwt,
     addMarker,
+    Environment,
   } from 'common';
   import Menu from 'components/Menu.svelte';
   import Modal from 'components/Modal.svelte';
@@ -82,7 +83,7 @@
           x: pointerOnLayer.x - pointerOnGroup.x,
           y: pointerOnLayer.y - pointerOnGroup.y
         };
-        fetch(`/api/locations/${info.id}`, {
+        fetch(`${Environment.apiHref}/locations/${info.id}`, {
           method: 'PATCH',
           body: JSON.stringify({
             xCoord: Math.floor(pos.x),
@@ -99,7 +100,7 @@
     stage.on('dblclick', () => {
       const pos = stage.getRelativePointerPosition();
       pos.draggable = true;
-      fetch('/api/locations', {
+      fetch(`${Environment.apiHref}/locations`, {
         method: 'POST',
         body: JSON.stringify({
           name: 'Testing',
@@ -111,7 +112,6 @@
           'Authorization': `Bearer ${auth.access}`,
         }
       }).then(res => {
-        console.log(res);
         const group = new Konva.Group({
           x: pos.x,
           y: pos.y,
