@@ -26,6 +26,9 @@
     {
       path: 'password',
       label: 'Password',
+      props: {
+        type: 'password',
+      }
     },
   ];
   const onLogin = () => {
@@ -183,10 +186,15 @@
 >
   <Form
     bind:config={form}
+    on:submit={onLogin}
   />
   <div>
     <Button style={'secondary'} on:click={() => loginVisible = false}>Cancel</Button>
-    <Button on:click={onLogin}>Login</Button>
+    <Button
+      on:click={onLogin}
+    >
+      Login
+    </Button>
   </div>
 </Modal>
 
