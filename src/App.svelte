@@ -32,6 +32,7 @@
       }
     },
   ];
+
   const onLogin = () => {
     signIn(serialize(form))
     .then(data => {
@@ -83,7 +84,7 @@
           x: pointerOnLayer.x - pointerOnGroup.x,
           y: pointerOnLayer.y - pointerOnGroup.y
         };
-        fetch(`${Environment.apiHref}/locations/${info.id}`, {
+        fetch(`${Environment.apiHref}/locations/${info.uuid}`, {
           method: 'PATCH',
           body: JSON.stringify({
             xCoord: Math.floor(pos.x),
