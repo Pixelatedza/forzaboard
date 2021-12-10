@@ -87,8 +87,8 @@
         fetch(`${Environment.apiHref}/locations/${info.uuid}`, {
           method: 'PATCH',
           body: JSON.stringify({
-            xCoord: Math.floor(pos.x),
-            yCoord: Math.floor(pos.y)
+            x: Math.floor(pos.x),
+            y: Math.floor(pos.y)
           }),
           headers: {
             'content-type': 'application/json',
@@ -105,8 +105,8 @@
         method: 'POST',
         body: JSON.stringify({
           name: 'Testing',
-          xCoord: Math.floor(pos.x),
-          yCoord: Math.floor(pos.y)
+          x: Math.floor(pos.x),
+          y: Math.floor(pos.y)
         }),
         headers: {
           'content-type': 'application/json',
@@ -153,8 +153,8 @@
         }
         for (const location of locations) {
           const group = new Konva.Group({
-            x: location.xCoord,
-            y: location.yCoord,
+            x: location.x,
+            y: location.y,
           })
 
           addMarker(group)
