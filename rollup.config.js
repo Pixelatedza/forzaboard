@@ -86,7 +86,7 @@ export default {
 			dirs: ['public'],
 			port: 5000,
 			proxy: [
-				{from: '/api/*', to: 'http://localhost:8000'}
+				{from: '/api', to: 'http://localhost:8000/'}
 			],
 		}),
 

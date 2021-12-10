@@ -31,6 +31,7 @@
       }
     },
   ];
+
   const onLogin = () => {
     signIn(serialize(form))
     .then(data => {
@@ -82,7 +83,7 @@
           x: pointerOnLayer.x - pointerOnGroup.x,
           y: pointerOnLayer.y - pointerOnGroup.y
         };
-        fetch(`/api/locations/${info.id}`, {
+        fetch(`/api/locations/${info.uuid}`, {
           method: 'PATCH',
           body: JSON.stringify({
             xCoord: Math.floor(pos.x),
