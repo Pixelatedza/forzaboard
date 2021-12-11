@@ -1,11 +1,31 @@
+<script context="module">
+  let menuItems = {};
+
+  export const register = (name, config) => {
+    if (menuItems[name]) {
+      console.warn(`Menu with name ${name} already exists.`)
+      return;
+    }
+
+    menuItems[name] = config;
+  }
+
+  export const unregister = (name) => {
+    delete menuItems[name];
+  }
+</script>
+
 <script>
   import {onMount} from 'svelte';
 
   let open = false;
   let toggle, menu;
   const onClickOutside = e => {
-  // TODO: Make it hide when a menu item was clicked
-    if (toggle.contains(e.target) || menu.contains(e.target)) {
+    if (toggle.contains(e.target)) {
+      return;
+    }
+
+    if (menu.contains(e.target) && e.target.id === 'menu') {
       return;
     }
 
@@ -98,8 +118,8 @@
 </div>
 <div id="menu" bind:this={menu}>
   <ul>
-    <!-- TODO: onclick should be more generic, hardcode for now, config will fix this -->
-    <!-- TODO: Menu should be given a config to display menu items -->
-    <li><div id='menu-login' on:click>Login</div></li>
+    {#each Object.entries(menuItems) as [name, menuItem]}
+    <li><div id={name} on:click={menuItem.onClick}>{menuItem.label}</div></li>
+    {/each}
   </ul>
 </div>

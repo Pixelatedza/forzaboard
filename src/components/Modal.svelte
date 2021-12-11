@@ -1,6 +1,22 @@
 <script>
   import {fade} from 'svelte/transition';
+  import {onMount} from 'svelte';
   export let visible = false;
+  let modal;
+  const onClickOutside = e => {
+    if (modal.contains(e.target)) {
+      return;
+    }
+
+    visible = false;
+  }
+
+  $: visible && window.addEventListener('click', onClickOutside, true) && console.log('here');
+  $: !visible && window.removeEventListener('click', onClickOutside, true)  && console.log('here')
+
+  onMount(() => () => {
+    window.removeEventListener('click', onClickOutside);
+  })
 </script>
 
 <style>
@@ -23,7 +39,7 @@
 </style>
 
 {#if visible}
-  <div class='layer' transition:fade={{duration: 150}}>
+  <div bind:this={modal} class='layer' transition:fade={{duration: 150}}>
     <div class='modal'>
       <slot></slot>
     </div>
