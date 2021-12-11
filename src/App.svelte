@@ -3,6 +3,7 @@
   import {
     getLocations,
     signIn,
+    signUp,
   } from 'api';
   import {
     addImage,
@@ -11,18 +12,22 @@
     addMarker,
     Environment,
   } from 'common';
-  import Menu from 'components/Menu.svelte';
+  import {auth as user} from 'stores';
+  import Menu, {register} from 'components/Menu.svelte';
   import Modal from 'components/Modal.svelte';
   import Form from 'components/Form.svelte';
   import Button from 'components/Button.svelte';
 
   const mapLocations = [];
-  let stage, layer, auth;
+  let stage, layer;
   let loginVisible = false;
+  let signupVisible = false;
+  let loginError = '';
+  let signUpError = '';
   let form = [
     {
-      path: 'username',
-      label: 'Username',
+      path: 'email',
+      label: 'Email',
     },
     {
       path: 'password',
@@ -33,29 +38,83 @@
     },
   ];
 
+  let signupForm = [
+    {
+      path: 'email',
+      label: 'Email',
+    },
+    {
+      path: 'password',
+      label: 'Password',
+      props: {
+        type: 'password',
+      }
+    },
+    {
+      path: 'username',
+      label: 'Username (optional)',
+    },
+  ];
+
+  $: {
+    console.log('user changed');
+    console.log($user);
+  }
+
   const onLogin = () => {
     signIn(serialize(form))
-    .then(data => {
-      const claims = parseJwt(data.access);
-      auth = {
-        access: data.access,
-        refresh: data.refresh,
+    .then(res => {
+      if (!res.ok) {
+        loginError = 'Failed to login.'
+        return;
+      }
+      loginError = '';
+      const claims = parseJwt(res.body.access);
+      user.set({
+        access: res.body.access,
+        refresh: res.body.refresh,
         permissions: new Set(claims.permissions),
         isStaff: claims.isStaff,
         isSuperuser: claims.isSuperuser,
         lastLogin: claims.lastLogin,
         userId: claims.user_id
-      }
+      });
+      // auth = {
+      //   access: res.body.access,
+      //   refresh: res.body.refresh,
+      //   permissions: new Set(claims.permissions),
+      //   isStaff: claims.isStaff,
+      //   isSuperuser: claims.isSuperuser,
+      //   lastLogin: claims.lastLogin,
+      //   userId: claims.user_id
+      // }
       loginVisible = false;
-      enableEdit();
       // TODO: Fix this nonsense
       delete form[0].value;
       delete form[1].value;
-    });
+    })
+  }
+
+  const onSignUp = () => {
+    signUp(serialize(signupForm))
+      .then(res => {
+        if (!res.ok) {
+          signUpError = 'Failed to sign up.';
+          return;
+        }
+
+        signUpError = '';
+
+        loginVisible = true;
+        signupVisible = false;
+        // TODO: Fix this nonsense
+        delete signupForm[0].value;
+        delete signupForm[1].value;
+      })
   }
 
   // TODO: Move all this stuff to a better place.
-  const enableEdit = () => {
+  const enableEdit = auth => {
 
     if (!auth.isSuperuser) {
       return;
@@ -147,11 +206,11 @@
     stage.add(layer);
 
     getLocations()
-      .then(locations => {
-        if (locations.statusCode) {
+      .then(res => {
+        if (!res.ok) {
           return;
         }
-        for (const location of locations) {
+        for (const location of res.body) {
           const group = new Konva.Group({
             x: location.x,
             y: location.y,
@@ -164,8 +223,24 @@
           });
           layer.add(group);
         }
+        user.subscribe(enableEdit);
       }).catch(e => console.error(e));
   }
+
+  register('login', {
+    label: 'Login',
+    onClick: () => loginVisible = true,
+  })
+
+  register('signup', {
+    label: 'Sign Up',
+    onClick: () => signupVisible = true,
+  })
+
+  register('logout', {
+    label: 'Log out',
+    onClick: user.logout,
+  })
 </script>
 
 <style>
@@ -181,7 +256,7 @@
   on:stageReady={onStageReady}
 />
 
-<Menu on:click={() => loginVisible = true}/>
+<Menu/>
 <Modal
   bind:visible={loginVisible}
 >
@@ -189,10 +264,29 @@
     bind:config={form}
     on:submit={onLogin}
   />
+  <p>{loginError}</p>
   <div>
     <Button style={'secondary'} on:click={() => loginVisible = false}>Cancel</Button>
     <Button
       on:click={onLogin}
+    >
+      Login
+    </Button>
+  </div>
+</Modal>
+
+<Modal
+  bind:visible={signupVisible}
+>
+  <Form
+    bind:config={signupForm}
+    on:submit={onSignUp}
+  />
+  <p>{signUpError}</p>
+  <div>
+    <Button style={'secondary'} on:click={() => signupVisible = false}>Cancel</Button>
+    <Button
+      on:click={onSignUp}
     >
       Login
     </Button>

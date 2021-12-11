@@ -11,7 +11,7 @@
   }
 </style>
 
-<form class='form' on:submit>
+<form class='form' on:submit|preventDefault>
 
   {#each config as field}
 

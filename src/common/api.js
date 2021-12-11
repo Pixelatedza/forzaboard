@@ -1,5 +1,20 @@
 import { Environment } from 'common/environment';
 
+const handleJSON = (res) => {
+  if (res.headers.get('content-type') !== 'application/json') {
+    throw new Error('Invalid content type');
+  }
+
+  return res.json()
+    .then(json => {
+      return {
+        body: json,
+        ok: res.ok,
+        status: res.status,
+      }
+    });
+}
+
 export const request = async (path, options = {}) => {
   const url = `${Environment.apiHref}/${path}`;
 
@@ -20,7 +35,7 @@ export const request = async (path, options = {}) => {
   )
     .then(res => {
       return res;
-    });
+    })
 };
 
 export const get = (path, options = {}) => {
@@ -30,8 +45,7 @@ export const get = (path, options = {}) => {
       ...options,
       method: 'GET',
     },
-  )
-    .then(res => res.json());
+  ).then(handleJSON);
 };
 
 export const patch = (path, data, options = {}) => {
@@ -45,8 +59,7 @@ export const patch = (path, data, options = {}) => {
         'content-type': 'application/json',
       },
     },
-  )
-    .then(res => res.json());
+  ).then(handleJSON);
 };
 
 export const post = (path, data, options = {}) => {
@@ -60,8 +73,7 @@ export const post = (path, data, options = {}) => {
         'content-type': 'application/json',
       },
     },
-  )
-    .then(res => res.json() );
+  ).then(handleJSON);
 };
 
 // Delete is a reserved word and cant be used for the function name
@@ -72,8 +84,7 @@ export const remove = (path, options = {}) => {
       ...options,
       method: 'DELETE',
     },
-  )
-    .then(res => res.json());
+  ).then(handleJSON);
 };
 
 export const download = async (path, options = {}) => {
