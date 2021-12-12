@@ -15,6 +15,8 @@ const handleJSON = (res) => {
     });
 }
 
+export const defaultHeaders = {};
+
 export const request = async (path, options = {}) => {
   const url = `${Environment.apiHref}/${path}`;
 
@@ -29,7 +31,10 @@ export const request = async (path, options = {}) => {
     `${url}${query.length > 0 ? `?${query}` : ''}`,
     {
       ...options,
-      headers: { ...options.headers },
+      headers: {
+        ...defaultHeaders,
+        ...options.headers,
+      },
       credentials: 'same-origin',
     },
   )
@@ -37,6 +42,8 @@ export const request = async (path, options = {}) => {
       return res;
     })
 };
+
+
 
 export const get = (path, options = {}) => {
   return request(

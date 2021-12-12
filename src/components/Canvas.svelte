@@ -1,10 +1,15 @@
 <script>
-  import {onMount, createEventDispatcher} from 'svelte';
+  import {onMount, createEventDispatcher, setContext} from 'svelte';
+  import {CONTEXTS} from 'common';
 
   const dispatch = createEventDispatcher();
-  export let stage = null;
+  let stage = null;
   let scaleBy = 1.1;
   let container;
+
+  setContext(CONTEXTS.CANVAS, {
+    getStage: () => stage,
+  })
 
   const resize = () => {
     stage.width(window.innerWidth);
@@ -31,7 +36,7 @@
         y: (pointer.y - stage.y()) / oldScale,
       };
 
-      let newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+      let newScale = e.evt.deltaY > 0 ? oldScale / scaleBy : oldScale * scaleBy;
       stage.scale({ x: newScale, y: newScale });
       let newPos = {
         x: pointer.x - mousePointTo.x * newScale,
@@ -40,7 +45,6 @@
       stage.position(newPos);
     });
   });
-//  bind:innerHeight={h} bind:innerWidth={w}
 </script>
 
 <style>
@@ -50,4 +54,8 @@
   }
 </style>
 <svelte:window on:resize|passive={resize}/>
-<div bind:this={container}></div>
+<div bind:this={container}>
+  {#if stage}
+    <slot/>
+  {/if}
+</div>
