@@ -1,10 +1,14 @@
 <script>
   import {
     addMarker,
+    addSVG,
   } from 'common';
   import {onMount} from 'svelte';
   import {auth} from 'stores';
-  import {updateLocation} from 'api';
+  import {
+    getEvent,
+    updateLocation,
+  } from 'api';
 
   export let location = {};
   export let layer;
@@ -47,17 +51,6 @@
       x: Math.floor(pos.x),
       y: Math.floor(pos.y),
     })
-    // fetch(`${Environment.apiHref}/locations/${location.uuid}`, {
-    //   method: 'PATCH',
-    //   body: JSON.stringify({
-    //     x: Math.floor(pos.x),
-    //     y: Math.floor(pos.y)
-    //   }),
-    //   headers: {
-    //     'content-type': 'application/json',
-    //     'Authorization': `Bearer ${auth.access}`,
-    //   }
-    // })
   }
 
   // React to auth changes
@@ -72,5 +65,19 @@
       group.off('dragend', onGroupDragEnd);
     }
   }
+
+  getEvent(location.main_event)
+    .then(res => {
+      if (!res.ok) {
+        return;
+      }
+
+      addSVG(`/images/forza/icons/${res.body.kind}.svg`, group, {
+        x: -24,
+        y: -58,
+        width: 48,
+        height: 48,
+      });
+    })
 
 </script>

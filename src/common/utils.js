@@ -16,6 +16,20 @@ export const addImage = (src, layer, options) => {
   })
 }
 
+export const addSVG = (src, parent, options) => {
+  fetch(src)
+    .then(res => {
+      return res.text();
+    }).then(data => {
+    const svg = new DOMParser().parseFromString(data, 'image/svg+xml');
+    svg.documentElement.width.baseVal.valueAsString = svg.documentElement.width.baseVal.value.toString();
+    svg.documentElement.height.baseVal.valueAsString = svg.documentElement.height.baseVal.value.toString();
+    const customSvg = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([customSvg], {type: 'image/svg+xml'});
+    addImage(URL.createObjectURL(blob), parent, options).catch(e => console.error(e));
+  })
+}
+
 export const addMarker = (parent) => {
   const line = new Konva.Line({
     points: [
