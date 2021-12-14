@@ -14,21 +14,58 @@ export const addImage = (src, layer, options) => {
     }
     image.src = src;
   })
-}
+};
 
-export const addSVG = (src, parent, options) => {
-  fetch(src)
+// TODO: Look at a better approach to load/cache these in future.
+// IMPORTANT TO NOTE! These SVGs are still being cached with normal
+// http cache headers. The first fetches will still hit the CDN and
+// check the cache headers. This is simply a minor speed up, to avoid
+// the delay when doing the follow up requests. Avoiding the whole
+// http cache lifecycle and network latency by just returning
+// immediately.
+const inflight = {};
+const svgCache = {};
+export const fetchCanvasSVG = (src) => {
+
+  // If the svg object url is already made simply return it.
+  if (svgCache[src]) {
+    return Promise.resolve(svgCache[src]);
+  }
+
+  // If we already have a request for this svg then return the current
+  // request promise.
+  if (inflight[src]) {
+    return inflight[src];
+  }
+
+  const request = fetch(src)
     .then(res => {
       return res.text();
     }).then(data => {
-    const svg = new DOMParser().parseFromString(data, 'image/svg+xml');
-    svg.documentElement.width.baseVal.valueAsString = svg.documentElement.width.baseVal.value.toString();
-    svg.documentElement.height.baseVal.valueAsString = svg.documentElement.height.baseVal.value.toString();
-    const customSvg = new XMLSerializer().serializeToString(svg);
-    const blob = new Blob([customSvg], {type: 'image/svg+xml'});
-    addImage(URL.createObjectURL(blob), parent, options).catch(e => console.error(e));
-  })
-}
+      const svg = new DOMParser().parseFromString(data, 'image/svg+xml');
+      svg.documentElement.width.baseVal.valueAsString = svg.documentElement.width.baseVal.value.toString();
+      svg.documentElement.height.baseVal.valueAsString = svg.documentElement.height.baseVal.value.toString();
+      const customSvg = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([customSvg], {type: 'image/svg+xml'});
+      const url = URL.createObjectURL(blob);
+      // Remove inflight fetch
+      delete inflight[src];
+      // Cache this svg url
+      svgCache[src] = url;
+      return url;
+    });
+
+  // Add request promise to inflight requests
+  inflight[src] = request;
+  return request;
+};
+
+export const addSVG = (src, parent, options) => {
+  fetchCanvasSVG(src)
+    .then(url => {
+      addImage(url, parent, options).catch(e => console.error(e));
+    });
+};
 
 export const addMarker = (parent) => {
   const line = new Konva.Line({
@@ -43,7 +80,7 @@ export const addMarker = (parent) => {
     closed: true,
   })
   parent.add(line);
-}
+};
 
 // This method was ripped straight from stackoverflow
 // Thanks to https://stackoverflow.com/a/38552302
