@@ -82,7 +82,7 @@
         width: 200px;
         padding: 10px;
         margin: 60px 0 0 20px;
-        font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+        font-family: "Roboto", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
         text-align: center;
         border-radius: 4px;
         background: white;
@@ -99,7 +99,7 @@
     }
     li div {
         padding: 5px;
-        color: #888;
+        color: black;
         text-decoration: none;
         transition: all .2s;
     }

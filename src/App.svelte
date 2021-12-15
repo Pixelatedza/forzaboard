@@ -11,7 +11,9 @@
   import Modal from 'components/Modal.svelte';
   import Form from 'components/Form.svelte';
   import Button from 'components/Button.svelte';
-  import Map from 'routes/Map.svelte';
+  import Map from 'scenes/Map.svelte';
+  import Leaderboard
+    from 'scenes/Leaderboard.svelte';
 
   let loginVisible = false;
   let signupVisible = false;
@@ -79,37 +81,9 @@
         // TODO: Fix this nonsense
         delete signupForm[0].value;
         delete signupForm[1].value;
+        delete signupForm[2].value;
       })
   }
-
-  // stage.on('dblclick', () => {
-  //   const pos = stage.getRelativePointerPosition();
-  //   pos.draggable = true;
-  //   fetch(`${Environment.apiHref}/locations`, {
-  //     method: 'POST',
-  //     body: JSON.stringify({
-  //       name: 'Testing',
-  //       x: Math.floor(pos.x),
-  //       y: Math.floor(pos.y)
-  //     }),
-  //     headers: {
-  //       'content-type': 'application/json',
-  //       'Authorization': `Bearer ${auth.access}`,
-  //     }
-  //   }).then(res => {
-  //     const group = new Konva.Group({
-  //       x: pos.x,
-  //       y: pos.y,
-  //       draggable: true,
-  //     })
-  //     addMarker(group);
-  //     layer.add(group);
-  //     mapLocations.push({
-  //       info: res,
-  //       group,
-  //     })
-  //   })
-  // })
 
   register('login', {
     label: 'Login',
@@ -117,7 +91,7 @@
   })
 
   register('signup', {
-    label: 'Sign Up',
+    label: 'Register',
     onClick: () => signupVisible = true,
   })
 
@@ -136,6 +110,8 @@
 </style>
 
 <Map/>
+
+<Leaderboard/>
 
 <Menu/>
 <Modal
@@ -169,7 +145,7 @@
     <Button
       on:click={onSignUp}
     >
-      Login
+      Register
     </Button>
   </div>
 </Modal>

@@ -267,3 +267,18 @@ export const deserialize = (config, data, obj = {}) => {
 
   return obj;
 };
+
+export const formatTime = duration => {
+
+  let milliseconds = parseInt((duration % 1000) / 100);
+  let seconds = parseInt((duration / 1000) % 60);
+  let minutes = parseInt((duration / (1000 * 60)) % 60);
+  let hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+  hours = ("0" + hours).slice(-2);
+  minutes = ("0" + minutes).slice(-2);
+  seconds = ("0" + seconds).slice(-2);
+  milliseconds = ("0000" + milliseconds).slice(-3);
+
+  return `${hours}:${minutes}:${seconds}.${milliseconds}`
+}

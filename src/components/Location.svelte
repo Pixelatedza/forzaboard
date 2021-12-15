@@ -4,7 +4,7 @@
     addSVG,
   } from 'common';
   import {onMount} from 'svelte';
-  import {auth} from 'stores';
+  import {auth, location as locationStore} from 'stores';
   import {
     getEvent,
     updateLocation,
@@ -65,6 +65,10 @@
       group.off('dragend', onGroupDragEnd);
     }
   }
+
+  group.on('mouseup', () => {
+    locationStore.set(location);
+  })
 
   getEvent(location.main_event)
     .then(res => {
