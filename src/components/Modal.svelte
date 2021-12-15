@@ -2,7 +2,6 @@
   import {fade} from 'svelte/transition';
   import {clickOutside} from 'actions';
 
-  export let autoHide = true;
   export let visible = false;
   let modal;
 </script>
