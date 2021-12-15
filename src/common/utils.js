@@ -43,8 +43,6 @@ export const fetchCanvasSVG = (src, options) => {
       return res.text();
     }).then(data => {
       const svg = new DOMParser().parseFromString(data, 'image/svg+xml');
-      // svg.documentElement.width.baseVal.valueAsString = svg.documentElement.width.baseVal.value.toString();
-      // svg.documentElement.height.baseVal.valueAsString = svg.documentElement.height.baseVal.value.toString();
       svg.documentElement.setAttribute("width",  options.width || '48px');
       svg.documentElement.setAttribute("height", options.height || '48px');
       const customSvg = new XMLSerializer().serializeToString(svg);
