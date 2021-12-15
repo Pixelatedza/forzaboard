@@ -6,7 +6,6 @@
   import {onMount} from 'svelte';
   import {auth, location as locationStore} from 'stores';
   import {
-    getEvent,
     updateLocation,
   } from 'api';
 
@@ -22,6 +21,13 @@
   !layer
     ? console.warn('Location has no layer')
     : layer.add(group);
+
+  addSVG(`/images/forza/icons/${location.kind}.svg`, group, {
+    x: -24,
+    y: -58,
+    width: 48,
+    height: 48,
+  });
 
   onMount(() => () => {
     group.destroy();
@@ -69,19 +75,5 @@
   group.on('mouseup', () => {
     locationStore.set(location);
   })
-
-  getEvent(location.main_event)
-    .then(res => {
-      if (!res.ok) {
-        return;
-      }
-
-      addSVG(`/images/forza/icons/${res.body.kind}.svg`, group, {
-        x: -24,
-        y: -58,
-        width: 48,
-        height: 48,
-      });
-    })
 
 </script>
