@@ -64,6 +64,7 @@
     if ($auth.isSuperuser) {
       group.add(text);
       group.setDraggable(true);
+      group.off('dragend', onGroupDragEnd);
       group.on('dragend', onGroupDragEnd);
     } else {
       text.remove();

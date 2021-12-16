@@ -26,7 +26,9 @@ export const auth = writable(initialAuth);
 
 auth.subscribe(newAuth => {
   localStorage.setItem('user', JSON.stringify(newAuth));
-  defaultHeaders['Authorization'] = newAuth.access;
+  newAuth.access
+    ? defaultHeaders['Authorization'] = `Bearer ${newAuth.access}`
+    : delete defaultHeaders['Authorization'];
   clearTimeout(refreshTimeout);
 
   if (newAuth.access) {
@@ -42,7 +44,7 @@ auth.subscribe(newAuth => {
           }
 
           auth.setAuth({
-            access: res.body.access,
+            access: res.body.refresh,
             refresh: newAuth.refresh,
           })
         });
