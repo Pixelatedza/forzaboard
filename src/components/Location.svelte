@@ -44,7 +44,7 @@
   })
 
   text.x(text.width() / -2);
-  text.y(text.height() * -1.5);
+  text.y(text.height() * -3);
 
   const onGroupDragEnd = () => {
     const pointerOnLayer = layer.getRelativePointerPosition();
