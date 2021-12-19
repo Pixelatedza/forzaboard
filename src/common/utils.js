@@ -268,9 +268,19 @@ export const deserialize = (config, data, obj = {}) => {
   return obj;
 };
 
+export const getPIClass = pi => {
+  if (pi > 998) return 'X';
+  if (pi > 900) return 'S2';
+  if (pi > 800) return 'S1';
+  if (pi > 700) return 'A';
+  if (pi > 600) return 'B';
+  if (pi > 500) return 'C';
+  return 'D';
+};
+
 export const formatTime = duration => {
 
-  let milliseconds = parseInt((duration % 1000) / 100);
+  let milliseconds = parseInt(duration % 1000);
   let seconds = parseInt((duration / 1000) % 60);
   let minutes = parseInt((duration / (1000 * 60)) % 60);
   let hours = parseInt((duration / (1000 * 60 * 60)) % 24);

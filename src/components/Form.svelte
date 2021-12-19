@@ -8,6 +8,7 @@
       display: flex;
       flex-direction: column;
       flex: 3;
+      padding: 10px 0 0 0;
   }
 </style>
 
