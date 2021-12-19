@@ -1,22 +1,6 @@
-<script context="module">
-  let menuItems = {};
-
-  export const register = (name, config) => {
-    if (menuItems[name]) {
-      console.warn(`Menu with name ${name} already exists.`)
-      return;
-    }
-
-    menuItems[name] = config;
-  }
-
-  export const unregister = (name) => {
-    delete menuItems[name];
-  }
-</script>
-
 <script>
   import {onMount} from 'svelte';
+  import {menuItems} from 'stores';
 
   let open = false;
   let toggle, menu;
@@ -118,7 +102,7 @@
 </div>
 <div id="menu" bind:this={menu}>
   <ul>
-    {#each Object.entries(menuItems) as [name, menuItem]}
+    {#each Object.entries($menuItems) as [name, menuItem]}
     <li><div id={name} on:click={menuItem.onClick}>{menuItem.label}</div></li>
     {/each}
   </ul>

@@ -6,14 +6,16 @@
   import {
     serialize,
   } from 'common';
-  import {auth} from 'stores';
-  import Menu, {register} from 'components/Menu.svelte';
+  import {
+    auth,
+    menuItems,
+  } from 'stores';
+  import Menu from 'components/Menu.svelte';
   import Modal from 'components/Modal.svelte';
   import Form from 'components/Form.svelte';
   import Button from 'components/Button.svelte';
   import Map from 'scenes/Map.svelte';
-  import Leaderboard
-    from 'scenes/Leaderboard.svelte';
+  import LocationOverview from 'scenes/LocationOverview.svelte';
 
   let loginVisible = false;
   let signupVisible = false;
@@ -85,20 +87,30 @@
       })
   }
 
-  register('login', {
-    label: 'Login',
-    onClick: () => loginVisible = true,
-  })
+  const updateMenu = () => {
+    if ($auth.access) {
+      menuItems.register('logout', {
+        label: 'Log out',
+        onClick: auth.logout,
+      })
+      menuItems.unregister('login');
+      menuItems.unregister('signup');
+    } else {
+      menuItems.register('login', {
+        label: 'Login',
+        onClick: () => loginVisible = true,
+      })
 
-  register('signup', {
-    label: 'Register',
-    onClick: () => signupVisible = true,
-  })
+      menuItems.register('signup', {
+        label: 'Register',
+        onClick: () => signupVisible = true,
+      })
+      menuItems.unregister('logout');
+    }
+  }
 
-  register('logout', {
-    label: 'Log out',
-    onClick: auth.logout,
-  })
+  $: $auth, updateMenu();
+
 </script>
 
 <style>
@@ -111,7 +123,7 @@
 
 <Map/>
 
-<Leaderboard/>
+<LocationOverview/>
 
 <Menu/>
 <Modal

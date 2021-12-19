@@ -44,7 +44,7 @@ auth.subscribe(newAuth => {
           }
 
           auth.setAuth({
-            access: res.body.refresh,
+            access: res.body.access,
             refresh: newAuth.refresh,
           })
         });

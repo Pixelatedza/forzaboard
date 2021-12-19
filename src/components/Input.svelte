@@ -5,7 +5,9 @@
 
 <style>
   div {
-      margin: 20px;
+      margin: 8px 20px;
+      display: flex;
+      flex-direction: column;
   }
 </style>
 <div>
