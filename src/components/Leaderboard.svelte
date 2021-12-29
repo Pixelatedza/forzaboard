@@ -179,7 +179,7 @@
     <div>{getPIClass(record.pi)} {record.pi}</div>
     <div>{formatRecordValue(location.kind, record.value)}</div>
     <div>
-      {#if !record.video}
+      {#if !!record.video}
         <a target="_blank" href={record.video}>link</a>
       {/if}
     </div>
