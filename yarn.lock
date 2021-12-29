@@ -64,6 +64,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@imask/svelte@npm:^6.2.2":
+  version: 6.2.2
+  resolution: "@imask/svelte@npm:6.2.2"
+  dependencies:
+    imask: ^6.2.0
+  peerDependencies:
+    svelte: ">=3.0.0"
+  checksum: 77c0d18cc96cba66a51ce84887c53fd6b6ec4ac93984b077c6c5c98ecdbe6f54e536e738f40f846a4832b70789a728988f589b0acb76d67a29d4836617448a32
+  languageName: node
+  linkType: hard
+
 "@npmcli/fs@npm:^1.0.0":
   version: 1.0.0
   resolution: "@npmcli/fs@npm:1.0.0"
@@ -1135,6 +1146,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"imask@npm:^6.2.0, imask@npm:^6.2.2":
+  version: 6.2.2
+  resolution: "imask@npm:6.2.2"
+  checksum: cdd18c9104a6391ef2f28bda957678b67312d81c830bfd57d7c1cd16463e7db948ee10c28cce1e9a21f870a1a9374f81a00bec0582a5949ca95c8060b39e3777
+  languageName: node
+  linkType: hard
+
 "imurmurhash@npm:^0.1.4":
   version: 0.1.4
   resolution: "imurmurhash@npm:0.1.4"
@@ -1795,6 +1813,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"regexparam@npm:2.0.0":
+  version: 2.0.0
+  resolution: "regexparam@npm:2.0.0"
+  checksum: 8db9559041b5f5304fd224b5c87b33f12bbb97e07292e7f573a57d73690c0f2e3e2a956fefe6169527b5585d7d0828b8aecedcf61ce5fae40530185ebcae3031
+  languageName: node
+  linkType: hard
+
 "require-from-string@npm:^2.0.2":
   version: 2.0.2
   resolution: "require-from-string@npm:2.0.2"
@@ -2291,9 +2316,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "svelte-app@workspace:."
   dependencies:
+    "@imask/svelte": ^6.2.2
     "@rollup/plugin-commonjs": ^21.0.1
     "@rollup/plugin-html": ^0.2.4
     "@rollup/plugin-node-resolve": ^13.0.6
+    imask: ^6.2.2
     rollup: ^2.60.1
     rollup-plugin-css-only: ^3.1.0
     rollup-plugin-dev: ^2.0.1
@@ -2303,8 +2330,18 @@ __metadata:
     rollup-plugin-terser: ^7.0.2
     sirv-cli: ^1.0.14
     svelte: ^3.44.2
+    svelte-spa-router: ^3.2.0
   languageName: unknown
   linkType: soft
+
+"svelte-spa-router@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "svelte-spa-router@npm:3.2.0"
+  dependencies:
+    regexparam: 2.0.0
+  checksum: 7ac39d5477595fd04d8df7c0d8c62e7e0d3fe20fd8b763424a1419da82246b76e1a4e6f38fb1d2add7f272442bd98f2484b5e41e06570a69ac80bec09483720b
+  languageName: node
+  linkType: hard
 
 "svelte@npm:^3.44.2":
   version: 3.44.2

@@ -32,3 +32,29 @@ export const PICLASS_FILTERS = {
     pi__lte: 999,
   },
 };
+
+export const RecordType = {
+  Distance: 'distance',
+  Points: 'points',
+  Speed: 'speed',
+  Duration: 'duration',
+  Seconds: 'seconds',
+};
+
+export const EventKindRecordType = {
+  danger_sign: RecordType.Distance,
+  drift_zone: RecordType.Points,
+  speed_trap: RecordType.Speed,
+  speed_zone: RecordType.Speed,
+  the_goliath: RecordType.Duration,
+  the_colossus: RecordType.Duration,
+  cross_country_sprint: RecordType.Duration,
+  road_sprint: RecordType.Duration,
+  trail_blazer: RecordType.Seconds,
+  dirt_sprint: RecordType.Duration,
+  dirt_circuit: RecordType.Duration,
+  street: RecordType.Duration,
+  drag: RecordType.Duration,
+  cross_country_circuit: RecordType.Duration,
+  road_circuit: RecordType.Duration,
+};

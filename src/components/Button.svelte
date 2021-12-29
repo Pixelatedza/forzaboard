@@ -1,9 +1,10 @@
 <script>
   export let style = 'primary';
+  export let type = 'button';
 </script>
 
 <style>
-    div {
+    button {
         display: flex;
         padding: 10px 20px;
         justify-content: center;
@@ -11,7 +12,7 @@
         transition: .2s;
     }
 
-    div:hover {
+    button:hover {
         cursor: pointer;
 
     }
@@ -29,6 +30,7 @@
 
     .secondary {
         color: #000;
+        padding: 10px 4px;
         font-weight: bold;
         font-size: 20px;
     }
@@ -38,6 +40,10 @@
     }
 </style>
 
-<div class={style} on:click>
+<button
+  class={style}
+  on:click
+  type={type}
+>
   <slot></slot>
-</div>
+</button>

@@ -11,28 +11,25 @@
     getRecords,
   } from 'api';
   import {
-    formatTime,
-    getPIClass,
     PICLASS_FILTERS,
+    filteredCars,
   } from 'common';
+  import Leaderboard
+    from 'components/Leaderboard.svelte';
 
   $: hasLocation = !!$location.uuid;
   let events = [];
   let filters = {
     car__brand__uuid: '',
-    car__name: '',
+    car__uuid: '',
     class: '',
   };
   let activeEventIndex;
+  let addVisible = false;
+  let addError = '';
+
   $: activeEvent = events[activeEventIndex] || {};
   let records = [];
-
-  const formatRecordValue = (event_kind, value) => {
-    switch (event_kind) {
-      case 'road_circuit': return formatTime(value)
-      default: return value;
-    }
-  }
 
   const getLeaderboardEvents = () => {
     getEvents({
@@ -87,9 +84,9 @@
     });
   }
 
-  $: activeEventIndex !== undefined && getActiveLeaderboard();
+  $: activeEvent.uuid && getActiveLeaderboard();
   $: filters, getActiveLeaderboard();
-
+  $: cars_filter = filteredCars(filters.car__brand__uuid, $cars);
 </script>
 
 <style>
@@ -107,12 +104,11 @@
 
   .card_group {
       display: flex;
-      width: 80vw;
+      width: 90vw;
   }
 
   .header_card {
       margin: 0 10px;
-      pointer-events: auto;
   }
 
   .card {
@@ -143,6 +139,7 @@
       background-color: white;
       margin: 0 10px 10px;
       padding: 10px;
+      pointer-events: auto;
   }
 
   .row {
@@ -165,17 +162,6 @@
       color: #fff;
   }
 
-  .record_grid {
-      display: grid;
-      grid-template-columns: fit-content(9ch) 2fr 2fr 10ch 100px 100px 50px;
-      grid-gap: 10px;
-      margin: 5px;
-      word-break: break-word;
-  }
-
-  .lb_video {
-      text-align: right;
-  }
 
   .event_details {
       margin: 10px;
@@ -190,7 +176,9 @@
     >
       <div
         class='card_group'
+        transition:fade={{duration: 150}}
       >
+
         <div class='event_card header_card'></div>
         <div class='leaderboard_card header_card filters'>
           Brand
@@ -201,9 +189,9 @@
             {/each}
           </select>
           Car
-          <select bind:value={filters.car__name}>
+          <select bind:value={filters.car__uuid}>
             <option value="">All</option>
-            {#each $cars as car}
+            {#each cars_filter as car}
               <option value={car.uuid}>{car.name}</option>
             {/each}
           </select>
@@ -244,29 +232,11 @@
           class='card leaderboard_card'
           transition:fade={{duration: 150}}
         >
-          <h3>Leaderboard</h3>
-          <div class='record_grid'>
-            <b>#</b>
-            <b>Username</b>
-            <b>Car</b>
-            <b>Sharecode</b>
-            <b>PI</b>
-            <b>Time</b>
-            <b>Video</b>
-            {#each records as record, i}
-              <div>{i + 1}</div>
-              <div>{record.user}</div>
-              <div>{record.car}</div>
-              <div>{record.share_code || ''}</div>
-              <div>{getPIClass(record.pi)} {record.pi}</div>
-              <div>{formatRecordValue($location.kind, record.value)}</div>
-              <div class='lb_video'>
-                {#if !record.video}
-                  <a target="_blank" href='https://www.youtube.com/watch?v=JRjwF8OWNck'>link</a>
-                {/if}
-              </div>
-            {/each}
-          </div>
+          <Leaderboard
+            records={records}
+            location={$location}
+            event={activeEvent}
+          />
         </div>
 
         <div
