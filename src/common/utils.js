@@ -1,3 +1,8 @@
+import {
+  EventKindRecordType,
+  RecordType,
+} from 'common/constants';
+
 export const addImage = (src, layer, options) => {
   return new Promise((resolve) => {
     const image = new Image();
@@ -278,17 +283,73 @@ export const getPIClass = pi => {
   return 'D';
 };
 
-export const formatTime = duration => {
+export const getDurationParts = ms => {
 
-  let milliseconds = parseInt(duration % 1000);
-  let seconds = parseInt((duration / 1000) % 60);
-  let minutes = parseInt((duration / (1000 * 60)) % 60);
-  let hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+  if (isNaN(parseInt(ms))) {
+    return {
+      hours: "00",
+      minutes: "00",
+      seconds: "00",
+      milliseconds: "000",
+    };
+  }
 
-  hours = ("0" + hours).slice(-2);
-  minutes = ("0" + minutes).slice(-2);
-  seconds = ("0" + seconds).slice(-2);
-  milliseconds = ("0000" + milliseconds).slice(-3);
+  let milliseconds = parseInt(ms % 1000);
+  let seconds = parseInt((ms / 1000) % 60);
+  let minutes = parseInt((ms / (1000 * 60)) % 60);
+  let hours = parseInt((ms / (1000 * 60 * 60)));
 
+  return {
+    hours: hours < 10 ? ("00" + hours).slice(-2) : hours,
+    minutes: ("0" + minutes).slice(-2),
+    seconds: ("0" + seconds).slice(-2),
+    milliseconds: ("0000" + milliseconds).slice(-3),
+  };
+}
+
+export const formatTime = ms => {
+  const {
+    hours,
+    minutes,
+    seconds,
+    milliseconds,
+  } = getDurationParts(ms);
   return `${hours}:${minutes}:${seconds}.${milliseconds}`
+}
+
+export const durationToMS = (duration) => {
+  let milliseconds = 0;
+  milliseconds += duration.hours * 3600000;
+  milliseconds += duration.minutes * 60000;
+  milliseconds += duration.seconds * 1000;
+  milliseconds += duration.milliseconds * 1;
+
+  if (isNaN(milliseconds)) {
+    return 0;
+  }
+
+  return milliseconds;
+}
+
+export const filteredCars = (brand, cars) => {
+  if (brand === '' || !brand) {
+    return cars;
+  }
+  return cars.filter(c => c.brand === brand);
+};
+
+export const formatRecordValue = (event_kind, value) => {
+  switch (EventKindRecordType[event_kind]) {
+    case RecordType.Duration:
+      return formatTime(value);
+    case RecordType.Speed:
+      return `${(value / 1000).toFixed(2)} km/h`;
+    case RecordType.Points:
+      return value;
+    case RecordType.Distance:
+      return `${(value / 1000).toFixed(2)} m`;
+    case RecordType.Seconds:
+      return `${value}s`;
+    default: return value;
+  }
 }

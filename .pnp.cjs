@@ -35,9 +35,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
+            ["@imask/svelte", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:6.2.2"],
             ["@rollup/plugin-commonjs", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:21.0.1"],
             ["@rollup/plugin-html", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:0.2.4"],
             ["@rollup/plugin-node-resolve", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:13.0.6"],
+            ["imask", "npm:6.2.2"],
             ["rollup", "npm:2.60.1"],
             ["rollup-plugin-css-only", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:3.1.0"],
             ["rollup-plugin-dev", "npm:2.0.1"],
@@ -46,7 +48,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rollup-plugin-svelte", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:7.1.0"],
             ["rollup-plugin-terser", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:7.0.2"],
             ["sirv-cli", "npm:1.0.14"],
-            ["svelte", "npm:3.44.2"]
+            ["svelte", "npm:3.44.2"],
+            ["svelte-spa-router", "npm:3.2.0"]
           ],
           "linkType": "SOFT",
         }]
@@ -116,6 +119,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@hapi/topo", "npm:5.1.0"],
             ["@hapi/hoek", "npm:9.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@imask/svelte", [
+        ["npm:6.2.2", {
+          "packageLocation": "./.yarn/cache/@imask-svelte-npm-6.2.2-344dc38e14-77c0d18cc9.zip/node_modules/@imask/svelte/",
+          "packageDependencies": [
+            ["@imask/svelte", "npm:6.2.2"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:6.2.2", {
+          "packageLocation": "./.yarn/__virtual__/@imask-svelte-virtual-9864471577/0/cache/@imask-svelte-npm-6.2.2-344dc38e14-77c0d18cc9.zip/node_modules/@imask/svelte/",
+          "packageDependencies": [
+            ["@imask/svelte", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:6.2.2"],
+            ["@types/svelte", null],
+            ["imask", "npm:6.2.2"],
+            ["svelte", "npm:3.44.2"]
+          ],
+          "packagePeers": [
+            "@types/svelte",
+            "svelte"
           ],
           "linkType": "HARD",
         }]
@@ -1396,6 +1422,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["imask", [
+        ["npm:6.2.2", {
+          "packageLocation": "./.yarn/cache/imask-npm-6.2.2-af0a568ebe-cdd18c9104.zip/node_modules/imask/",
+          "packageDependencies": [
+            ["imask", "npm:6.2.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["imurmurhash", [
         ["npm:0.1.4", {
           "packageLocation": "./.yarn/cache/imurmurhash-npm-0.1.4-610c5068a0-7cae75c8cd.zip/node_modules/imurmurhash/",
@@ -2153,6 +2188,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["regexparam", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/regexparam-npm-2.0.0-ce5e3fc751-8db9559041.zip/node_modules/regexparam/",
+          "packageDependencies": [
+            ["regexparam", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["require-from-string", [
         ["npm:2.0.2", {
           "packageLocation": "./.yarn/cache/require-from-string-npm-2.0.2-8557e0db12-a03ef68954.zip/node_modules/require-from-string/",
@@ -2729,9 +2773,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["svelte-app", "workspace:."],
+            ["@imask/svelte", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:6.2.2"],
             ["@rollup/plugin-commonjs", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:21.0.1"],
             ["@rollup/plugin-html", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:0.2.4"],
             ["@rollup/plugin-node-resolve", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:13.0.6"],
+            ["imask", "npm:6.2.2"],
             ["rollup", "npm:2.60.1"],
             ["rollup-plugin-css-only", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:3.1.0"],
             ["rollup-plugin-dev", "npm:2.0.1"],
@@ -2740,9 +2786,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rollup-plugin-svelte", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:7.1.0"],
             ["rollup-plugin-terser", "virtual:523f92577d6bcbd3334da2c61ecfbe9106ff9e28bdbc00f8170e1287d886a39bc27d7ba6d601ca9d3d6dcdc03901720ae9d8f2a419ca8781c7167ddb1f49df25#npm:7.0.2"],
             ["sirv-cli", "npm:1.0.14"],
-            ["svelte", "npm:3.44.2"]
+            ["svelte", "npm:3.44.2"],
+            ["svelte-spa-router", "npm:3.2.0"]
           ],
           "linkType": "SOFT",
+        }]
+      ]],
+      ["svelte-spa-router", [
+        ["npm:3.2.0", {
+          "packageLocation": "./.yarn/cache/svelte-spa-router-npm-3.2.0-fcc2db16a7-7ac39d5477.zip/node_modules/svelte-spa-router/",
+          "packageDependencies": [
+            ["svelte-spa-router", "npm:3.2.0"],
+            ["regexparam", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["tar", [

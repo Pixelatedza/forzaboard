@@ -2,8 +2,6 @@
   import RadioButton from './RadioButton.svelte'
   export let options = [];
   let values = {}
-
-  $: console.log(values);
 </script>
 <style>
     div {

@@ -1,21 +1,27 @@
 <script>
    // TODO: Make this pretty
    export let field = {};
+   let previous = field.value;
+
+   $: {
+     if (field.value && field.pattern && !field.value.match(field.pattern)) {
+       field.value = previous;
+     } else {
+       previous = field.value;
+     }
+   }
 </script>
 
 <style>
-  div {
-      margin: 8px 20px;
-      display: flex;
-      flex-direction: column;
+  input {
+      box-sizing: border-box;
+      width: 100%;
   }
 </style>
-<div>
-  <label for={field.name || field.id}>{field.label}</label>
-  <input
-    type='text'
-    {...field.props}
-    id={field.name || field.id}
-    bind:value={field.value}
-  />
-</div>
+
+<input
+  type='text'
+  {...field.props}
+  id={field.name || field.id}
+  bind:value={field.value}
+/>

@@ -7,7 +7,11 @@ import {refreshToken} from 'api';
 
 const parseStoredAuth = (storedAuth) => {
   try {
-    return JSON.parse(storedAuth);
+    const stored = JSON.parse(storedAuth);
+    return {
+      ...stored,
+      permissions: new Set(stored.permissions),
+    };
   } catch (e) {
     return null;
   }
@@ -17,6 +21,7 @@ const defaultAuth = {
   access: null,
   refresh: null,
   info: {},
+  permissions: new Set([]),
 };
 const storedAuth = parseStoredAuth(localStorage.getItem('user'));
 const initialAuth = storedAuth || defaultAuth;
@@ -25,7 +30,10 @@ let refreshTimeout;
 export const auth = writable(initialAuth);
 
 auth.subscribe(newAuth => {
-  localStorage.setItem('user', JSON.stringify(newAuth));
+  localStorage.setItem('user', JSON.stringify({
+    ...newAuth,
+    permissions: Array.from(newAuth.permissions.values()) ?? [],
+  }));
   newAuth.access
     ? defaultHeaders['Authorization'] = `Bearer ${newAuth.access}`
     : delete defaultHeaders['Authorization'];
