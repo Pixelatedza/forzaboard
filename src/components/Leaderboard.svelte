@@ -180,7 +180,7 @@
     <div>{formatRecordValue(location.kind, record.value)}</div>
     <div>
       {#if !record.video}
-        <a target="_blank" href='https://www.youtube.com/watch?v=JRjwF8OWNck'>link</a>
+        <a target="_blank" href={record.video}>link</a>
       {/if}
     </div>
   {/each}
