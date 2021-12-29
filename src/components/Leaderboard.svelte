@@ -120,12 +120,11 @@
       addVisible = false;
     });
   };
-
-
 </script>
 
 <style>
     .leaderboard-header {
+        height: 44px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -134,10 +133,12 @@
 
     .record_grid {
         display: grid;
-        grid-template-columns: fit-content(9ch) 2fr 2fr 10ch 100px 100px 50px;
+        max-height: calc(100% - 54px);
+        grid-template-columns: fit-content(9ch) 2fr 2fr 10ch 100px 150px 50px;
         grid-gap: 10px;
         margin: 5px;
         word-break: break-word;
+        overflow: auto;
     }
 
     .add-mod {
@@ -161,13 +162,14 @@
     <Button on:click={() => addVisible = true}>Add</Button>
   {/if}
 </div>
+
 <div class='record_grid'>
   <b>#</b>
   <b>Username</b>
   <b>Car</b>
   <b>Sharecode</b>
   <b>PI</b>
-  <b>Time</b>
+  <b>{RecordInputOptions[EventKindRecordType[location.kind]].label}</b>
   <b>Video</b>
   {#each records as record, i}
     <div>{i + 1}</div>
@@ -183,6 +185,7 @@
     </div>
   {/each}
 </div>
+
 
 <Modal
   bind:visible={addVisible}

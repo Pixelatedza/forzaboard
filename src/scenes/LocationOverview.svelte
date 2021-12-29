@@ -87,7 +87,6 @@
   $: activeEvent.uuid && getActiveLeaderboard();
   $: filters, getActiveLeaderboard();
   $: cars_filter = filteredCars(filters.car__brand__uuid, $cars);
-
 </script>
 
 <style>
@@ -105,7 +104,7 @@
 
   .card_group {
       display: flex;
-      width: 80vw;
+      width: 90vw;
   }
 
   .header_card {
