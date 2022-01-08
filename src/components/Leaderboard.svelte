@@ -291,8 +291,8 @@
         <div class='col5'>{getPIClass(record.pi)} {record.pi}</div>
         <div class='col6'>{formatRecordValue(location.kind, record.value)}</div>
         <div class='col7'>
-          {#if !record.video}
-            <a target="_blank" href='https://www.youtube.com/watch?v=JRjwF8OWNck'>link</a>
+          {#if !!record.video}
+            <a target="_blank" href={record.video}>link</a>
           {/if}
         </div>
         {#if showDelete === i && record.user?.uuid === $auth.userId}
