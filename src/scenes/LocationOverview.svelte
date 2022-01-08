@@ -233,7 +233,7 @@
           transition:fade={{duration: 150}}
         >
           <Leaderboard
-            records={records}
+            bind:records={records}
             location={$location}
             event={activeEvent}
           />

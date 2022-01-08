@@ -91,7 +91,7 @@ export const remove = (path, options = {}) => {
       ...options,
       method: 'DELETE',
     },
-  ).then(handleJSON);
+  );
 };
 
 export const download = async (path, options = {}) => {
