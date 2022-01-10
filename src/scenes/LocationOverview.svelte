@@ -1,5 +1,4 @@
 <script>
-  import {fade} from 'svelte/transition';
   import {
     location,
     brands,
@@ -176,7 +175,6 @@
     >
       <div
         class='card_group'
-        transition:fade={{duration: 150}}
       >
 
         <div class='event_card header_card'></div>
@@ -214,7 +212,6 @@
       >
         <div
           class='card event_card'
-          transition:fade={{duration: 150}}
         >
           <h3>Events</h3>
           {#each events as event, i}
@@ -230,7 +227,6 @@
 
         <div
           class='card leaderboard_card'
-          transition:fade={{duration: 150}}
         >
           <Leaderboard
             bind:records={records}
@@ -241,7 +237,6 @@
 
         <div
           class='card details_card'
-          transition:fade={{duration: 150}}
         >
           <h3>Top tunes</h3>
           <div class='event_details'>
